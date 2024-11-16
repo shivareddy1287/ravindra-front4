@@ -10,10 +10,10 @@ import {
   useNavigate,
 } from "react-router-dom"
 import Navbar from "./components/navbar/navbar"
-import HomePage from "./components/homePage/homePage"
+// import HomePage from "./components/homePage/homePage"
 import Dashboard from "./components/admin/dashboard/dashboard"
-import CreateLeaders from "./components/admin/createLeaders/createLeaders"
-import Leaders from "./components/admin/leaders/leaders"
+// import CreateLeaders from "./components/admin/createLeaders/createLeaders"
+// import Leaders from "./components/admin/leaders/leaders"
 import UploadPhotos from "./components/admin/uploadPhotos/uploadPhotos"
 import EditProfile from "./components/admin/editProfile/editProfile"
 import PhotosGallery from "./components/photosGallary/photosGallery"
@@ -96,7 +96,7 @@ const App = () => {
           }
           path="/upload-photos"
         />
-        <Route
+        {/* <Route
           element={
             <ProtectedRoute>
               <Leaders />
@@ -111,7 +111,7 @@ const App = () => {
             </ProtectedRoute>
           }
           path="/create-leaders"
-        />
+        />    */}
         <Route
           element={
             <ProtectedRoute>
