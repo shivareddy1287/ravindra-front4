@@ -14,8 +14,9 @@
 }
 
 /* From Uiverse.io by Smit-Prajapati */
-.loginPage_cont .container {
+.loginPage_cont .container2 {
   max-width: 350px;
+  min-width: 300px;
   background: #f8f9fd;
   opacity: 0.9;
   background: linear-gradient(
@@ -79,7 +80,10 @@
 }
 
 .loginPage_cont .form .login-button {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   font-weight: bold;
   /* background: linear-gradient(
@@ -168,4 +172,22 @@
   text-decoration: none;
   color: #0099ff;
   font-size: 9px;
+}
+
+.form .verify-inputs {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 10px;
+}
+
+.form .verify-inputs input {
+  height: 2.5em;
+  width: 2.5em;
+  /* outline: none; */
+  text-align: center;
+  font-size: 1.2em;
+  color: #000;
+  border-radius: 0.3em;
+  border: 1px solid black;
+  background-color: rgb(255 255 255 / 0.05);
 }

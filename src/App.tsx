@@ -2,6 +2,9 @@ import "./App.css"
 
 import AuthPage from "./components/auth/auth"
 
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 import {
   BrowserRouter,
   Route,
@@ -27,6 +30,7 @@ import type { RootState } from "./redux/store/store"
 import { useAppSelector } from "./app/hooks"
 import TopHeader from "./components/navbar/topHeader"
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute"
+import ForgotPasswordPage from "./components/auth/forgotPassword"
 
 const App = () => {
   const navigate = useNavigate()
@@ -35,7 +39,6 @@ const App = () => {
   const { userAuth, loading, userDetails } = useAppSelector(
     (state: RootState) => state.users,
   )
-  console.log(location.pathname)
 
   // const showTopHeader = ![
   //   "/dashboard",
@@ -54,12 +57,13 @@ const App = () => {
     "/leaders",
     "/delete-photos",
     "/edit-profile",
-    "/user-bio", // Removed :id since we're now using startsWith
+    "/user-bio",
     "/know-your-leader",
   ].some(path => location.pathname.startsWith(path))
 
   return (
     <div className="App">
+      <ToastContainer />
       <div>
         <div>
           {showTopHeader && <TopHeader />}
@@ -72,6 +76,7 @@ const App = () => {
       <Routes>
         <Route element={<HomePage2 />} path="/" />
         <Route element={<AuthPage />} path="/login" />
+        <Route element={<ForgotPasswordPage />} path="/forgot-password" />
         <Route
           element={
             <ProtectedRoute>

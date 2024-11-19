@@ -51,7 +51,7 @@ function ContactUs() {
 
                 <div>
                   <h2>Email</h2>
-                  <p>tdprghanjam@gmail.com</p>
+                  <p>kolluravindra@gmail.com</p>
                 </div>
               </div>
               <div className="contactt__address__cont">
@@ -62,7 +62,7 @@ function ContactUs() {
 
                 <div>
                   <h2>Contact</h2>
-                  <p>+91 985 6666 606</p>
+                  <p>+91 985 6666 000</p>
                 </div>
               </div>
             </div>

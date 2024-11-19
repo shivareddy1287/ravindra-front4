@@ -142,6 +142,7 @@
 .home__slider-img {
   height: 190px;
   width: 90%;
+  object-fit: cover;
   border-radius: 20px;
 }
 /* services */
@@ -287,3 +288,18 @@
 }
 /* map */
 /* home page css end */
+
+.home-slider {
+  margin: 0;
+  width: 98%;
+}
+
+@media (max-width: 768px) {
+  .homepage-aboutme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    display: none;
+  }
+}

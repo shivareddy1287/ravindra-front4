@@ -8,6 +8,28 @@ interface UserData {
   email: string
   password: string
 }
+interface ResetUserData {
+  email: string
+  password: string
+  userId: string
+}
+interface sendOtpUserData {
+  email: string
+}
+
+interface OtpData {
+  _id: string
+  otp: string
+}
+// interface ResetPassword {
+//   password: string
+// }
+interface userVer {
+  otp: string
+}
+interface ResetSucess {
+  message: string
+}
 
 interface UserResponse {
   _id: string
@@ -49,6 +71,7 @@ interface User {
 interface UserState {
   usersList: User[]
   userAuth: UserResponse | null
+  verifyUser: userVer
   loading: boolean
   appErr?: string
   serverErr?: string
@@ -56,11 +79,91 @@ interface UserState {
   profileUpdated?: UserResponse | null
   isUpdated?: boolean
   isUpdatedBio?: boolean
+  verifyLoading?: boolean
+  resetLoading?: boolean
+  isPasswordUpdated?: boolean
 }
 
 // Action for resetting profile updates
 const resetProfileEdit = createAction("updateProfile/reset")
 const resetProfileBioEdit = createAction("updateProfileBio/reset")
+const resetPasswordUpdate = createAction("updatePasword/reset")
+
+//
+//
+//
+//
+//
+//
+// sendotp thunk
+export const sendOtpAction = createAsyncThunk<
+  OtpData, // fulfilled response type
+  sendOtpUserData, // argument type
+  { rejectValue: { message: string } } // rejected response type
+>("user/sendOtp", async (userData, { rejectWithValue }) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }
+
+  try {
+    const { data } = await axios.post<OtpData>(
+      `${baseUrl}/api/users/sendOtp`,
+      userData,
+      config,
+    )
+
+    console.log(data)
+
+    return data // success return
+  } catch (error: any) {
+    if (!error?.response) {
+      throw error
+    }
+    return rejectWithValue(error.response.data)
+  }
+})
+//
+//
+//
+
+export const resetPasswordAction = createAsyncThunk<
+  ResetSucess, // fulfilled response type
+  ResetUserData, // argument type
+  { rejectValue: { message: string } } // rejected response type
+>("user/resetPassword", async (userData, { rejectWithValue, dispatch }) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }
+
+  try {
+    console.log(userData, config)
+
+    const { data } = await axios.post<ResetSucess>(
+      `${baseUrl}/api/users/resetPassword`,
+      userData,
+      config,
+    )
+
+    console.log(data)
+    dispatch(resetPasswordUpdate())
+
+    return data // success return
+  } catch (error: any) {
+    if (!error?.response) {
+      throw error
+    }
+    return rejectWithValue(error.response.data)
+  }
+})
+//
+//
+//
+//
+//
 
 // loginUserAction thunk
 export const loginUserAction = createAsyncThunk<
@@ -112,7 +215,7 @@ export const fetchUserDetailsAction = createAsyncThunk<
   UserResponse, // fulfilled response type
   string, // argument type (user id)
   { rejectValue: { message: string } } // rejected response type
->("user/detail", async (id, { rejectWithValue }) => {
+>("user/detail", async (id, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.get<UserResponse>(`${baseUrl}/api/users/${id}`)
     return data
@@ -240,6 +343,59 @@ const userSlices = createSlice({
       state.serverErr = action.error.message
       state.loading = false
     })
+
+    //
+    //
+    //
+    //
+    //
+    // verify action
+    builder.addCase(sendOtpAction.pending, state => {
+      state.verifyLoading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(
+      sendOtpAction.fulfilled,
+      (state, action: PayloadAction<UserResponse>) => {
+        // state.userAuth = action.payload
+        state.verifyUser = action.payload
+        state.verifyLoading = false
+      },
+    )
+    builder.addCase(sendOtpAction.rejected, (state, action) => {
+      state.appErr = action.payload?.message
+      state.serverErr = action.error.message
+      state.verifyLoading = false
+    })
+    //
+    //
+    builder.addCase(resetPasswordAction.pending, state => {
+      state.resetLoading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(resetPasswordUpdate, (state, action) => {
+      state.isPasswordUpdated = true
+    })
+    builder.addCase(
+      resetPasswordAction.fulfilled,
+      (state, action: PayloadAction<UserResponse>) => {
+        // state.userAuth = action.payload
+        state.resetUser = action.payload
+        state.isPasswordUpdated = false
+        state.resetLoading = false
+      },
+    )
+    builder.addCase(resetPasswordAction.rejected, (state, action) => {
+      state.appErr = action.payload?.message
+      state.serverErr = action.error.message
+      state.resetLoading = false
+    })
+    //
+    //
+    //
+    //
 
     // logout action
     builder.addCase(logoutAction.fulfilled, state => {

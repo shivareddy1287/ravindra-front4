@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./uploadPhotos.css"
 import { useFormik } from "formik"
 import * as Yup from "yup"
@@ -13,6 +13,7 @@ import { uploadPhotosAction } from "../../../redux/slices/photos/photosSlice"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 import { useNavigate } from "react-router-dom"
 import type { RootState } from "../../../redux/store/store"
+import { toast } from "react-toastify"
 
 // Form Schema
 const formSchema = Yup.object({
@@ -28,7 +29,7 @@ const UploadPhotos: React.FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { isUploaded, loading } = useAppSelector(
+  const { isUploaded, photosUploaded, loading } = useAppSelector(
     (state: RootState) => state.photos,
   )
   const { userAuth } = useAppSelector((state: RootState) => state.users)
@@ -44,13 +45,11 @@ const UploadPhotos: React.FC = () => {
       const formData = new FormData()
       formData.append("userId", values.userId)
       formData.append("date", values.date.toISOString()) // Convert Day.js to ISO string
-      console.log(values?.image)
-      console.log(visibleImgs)
-      console.log(leaderImgs)
 
       fileImgs.forEach(img => {
         formData.append(`image`, img)
       })
+      console.log("ssss")
 
       dispatch(uploadPhotosAction(formData))
     },
@@ -97,9 +96,12 @@ const UploadPhotos: React.FC = () => {
     }
   }
 
-  if (isUploaded) {
-    navigate("/dashboard")
-  }
+  useEffect(() => {
+    if (isUploaded) {
+      toast.success("Photos uploaded Successfully")
+      navigate("/dashboard")
+    }
+  }, [isUploaded, navigate])
 
   return (
     <div className="ad-cont">

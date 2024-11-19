@@ -4,10 +4,24 @@ import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"
 import type { RootState } from "../../redux/store/store"
 
+import DensityMediumIcon from "@mui/icons-material/DensityMedium"
+// import { toast } from "react-toastify"
+import { useState } from "react"
+
 const UserNavbar = () => {
   const navigate = useNavigate()
 
   const { userAuth } = useAppSelector((state: RootState) => state.users)
+
+  const [isActive, setIsActive] = useState(false)
+
+  const toggleNav = () => {
+    setIsActive(prev => !prev)
+  }
+  // const toggleNav = () => {
+  //   const navbar = document.querySelector(".userNavbarcontwc")
+  //   navbar.classList.toggle("active")
+  // }
 
   return (
     <div className="sticky_navbar_cont">
@@ -28,7 +42,14 @@ const UserNavbar = () => {
               />
               <span>Kollu Ravindra</span>
             </div>
-            <div className="userNavbarcont-r">
+            {/* <div className="nav-toggleIcon" onClick={toggleNav}>
+              <DensityMediumIcon />
+            </div> */}
+            <div
+              className={
+                isActive ? "userNavbarcont-r active" : "userNavbarcont-r"
+              }
+            >
               <span onClick={() => navigate("/")}>Home</span>
               <span onClick={() => navigate("/about")}>About</span>
               <span onClick={() => navigate("/photos-gallery")}>Gallery</span>

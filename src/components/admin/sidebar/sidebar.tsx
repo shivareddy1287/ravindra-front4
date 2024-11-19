@@ -2,7 +2,7 @@ import "./sidebar.css"
 
 import { useLocation, useNavigate } from "react-router-dom"
 
-import GridViewIcon from "@mui/icons-material/GridView"
+// import GridViewIcon from "@mui/icons-material/GridView"
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import GroupAddIcon from "@mui/icons-material/GroupAdd"
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications"

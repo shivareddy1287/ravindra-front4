@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import "./auth.css"
 import { loginUserAction } from "../../redux/slices/users/userSlice"
 
+import { toast } from "react-toastify"
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import type { RootState } from "../../redux/store/store"
 import UserNavbar from "../navbar/userNavbar"
@@ -21,7 +23,9 @@ const AuthPage = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { userAuth } = useAppSelector((state: RootState) => state?.users)
+  const { userAuth, loading } = useAppSelector(
+    (state: RootState) => state?.users,
+  )
 
   useEffect(() => {
     if (userAuth) {
@@ -34,9 +38,14 @@ const AuthPage = () => {
     const formData: AuthFormProps = { email, password }
 
     try {
-      dispatch(loginUserAction(formData))
+      const result = await dispatch(loginUserAction(formData)).unwrap()
+      toast.success("Login successful.")
+      console.log(result)
     } catch (error) {
       console.error("Failed to login:", error)
+      console.log(error)
+
+      toast.error("Invalid credentials..!")
     }
   }
 
@@ -45,12 +54,13 @@ const AuthPage = () => {
       {" "}
       <UserNavbar />
       <div className="loginPage_cont">
-        <div className="container">
+        <div className="container2">
           <div className="heading">Sign In</div>
           <form className="form" onSubmit={handleSubmit}>
             <input
               className="input"
               type="email"
+              autoComplete="user-email"
               required
               name="email"
               id="email"
@@ -69,16 +79,17 @@ const AuthPage = () => {
               onChange={e => setPassword(e.target.value)}
             />
             <span className="forgot-password">
-              <a href="#s">Forgot Password ?</a>
+              <a href="#s" onClick={() => navigate("/forgot-password")}>
+                Forgot Password ?
+              </a>
             </span>
-            <input className="login-button" type="submit" value="Sign In" />
+            <button disabled={loading} className="login-button" type="submit">
+              Sign In {loading ? <div className="button-loader"></div> : <></>}
+            </button>
           </form>
-          <div className="social-account-container">
-            <span className="title">Or Sign in with</span>
-            <div className="social-accounts">{/* Social buttons */}</div>
-          </div>
+
           <span className="agreement">
-            <a href="#s">Learn user licence agreement</a>
+            <a href="#s">Terms and conditions</a>
           </span>
         </div>
       </div>

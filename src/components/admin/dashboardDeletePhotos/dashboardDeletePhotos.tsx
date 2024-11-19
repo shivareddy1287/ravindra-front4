@@ -15,6 +15,8 @@ import {
   fetchPhotosAction,
 } from "../../../redux/slices/photos/photosSlice"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+import NoPhotosIllustration from "../../../utils/illustrations/noPhotos"
 
 const DeletePhotos = () => {
   const [date, setDate] = useState<Dayjs | null>(dayjs())
@@ -106,14 +108,20 @@ const DeletePhotos = () => {
   const hadleDeleteSelectedImages = () => {
     console.log(selectedImageIds)
 
+    if (selectedImageIds.length <= 0) {
+      toast.warning("No Photos Selected")
+      return
+    }
+
     dispatch(deletePhotosAction(selectedImageIds))
   }
 
-  if (isDeleted) {
-    // <Redirect to="/posts" />
-    // console.log("update")
-    navigate("/dashboard")
-  }
+  useEffect(() => {
+    if (isDeleted) {
+      toast.success("photos deleted successfully")
+      navigate("/dashboard")
+    }
+  }, [isDeleted, navigate])
 
   return (
     <div className="ad-cont">
@@ -180,30 +188,70 @@ const DeletePhotos = () => {
             </div>
           </div>
           {allPhotos ? (
+            // <>
+            //   <div className="db-imgs-cont">
+            //     {allPhotos
+            //       ?.filter(photo => {
+            //         const photoDate = new Date(photo?.date)
+            //           .toISOString()
+            //           .split("T")[0]
+            //         const selectedDate = date
+            //           ? date.toDate().toISOString().split("T")[0]
+            //           : ""
+            //         return photoDate === selectedDate
+            //       })
+            //       ?.map(photo => (
+            //         <div key={photo?._id} className="delete-img-container">
+            //           <img src={photo?.image} alt="img" />
+            //           <br />
+            //           <input
+            //             type="checkbox"
+            //             className="input-checkbox"
+            //             checked={selectedImageIds.includes(photo._id)}
+            //             onChange={() => handleCheckboxChange(photo._id)}
+            //           />
+            //         </div>
+            //       ))}
+            //   </div>
+            // </>
             <>
               <div className="db-imgs-cont">
-                {allPhotos
-                  ?.filter(photo => {
-                    const photoDate = new Date(photo?.date)
-                      .toISOString()
-                      .split("T")[0]
-                    const selectedDate = date
-                      ? date.toDate().toISOString().split("T")[0]
-                      : ""
-                    return photoDate === selectedDate
-                  })
-                  ?.map(photo => (
-                    <div key={photo?._id} className="delete-img-container">
-                      <img src={photo?.image} alt="img" />
-                      <br />
-                      <input
-                        type="checkbox"
-                        className="input-checkbox"
-                        checked={selectedImageIds.includes(photo._id)}
-                        onChange={() => handleCheckboxChange(photo._id)}
-                      />
-                    </div>
-                  ))}
+                {allPhotos?.filter(photo => {
+                  const photoDate = new Date(photo?.date)
+                    .toISOString()
+                    .split("T")[0]
+                  const selectedDate = date
+                    ? date.toDate().toISOString().split("T")[0]
+                    : ""
+                  return photoDate === selectedDate
+                }).length > 0 ? (
+                  allPhotos
+                    ?.filter(photo => {
+                      const photoDate = new Date(photo?.date)
+                        .toISOString()
+                        .split("T")[0]
+                      const selectedDate = date
+                        ? date.toDate().toISOString().split("T")[0]
+                        : ""
+                      return photoDate === selectedDate
+                    })
+                    ?.map(photo => (
+                      <div key={photo?._id} className="delete-img-container">
+                        <img src={photo?.image} alt="img" />
+                        <br />
+                        <input
+                          type="checkbox"
+                          className="input-checkbox"
+                          checked={selectedImageIds.includes(photo._id)}
+                          onChange={() => handleCheckboxChange(photo._id)}
+                        />
+                      </div>
+                    ))
+                ) : (
+                  <div className="illu-cont">
+                    <NoPhotosIllustration />
+                  </div>
+                )}
               </div>
             </>
           ) : (

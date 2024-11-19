@@ -74,3 +74,24 @@
   align-items: center;
   gap: 10px;
 }
+
+@media (max-width: 768px) {
+  .userNavbarcont-r {
+    /* display: none !important; */
+
+    position: fixed;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffca2f;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+  .active {
+    top: 60px;
+  }
+  .top-header {
+    display: none;
+  }
+}
