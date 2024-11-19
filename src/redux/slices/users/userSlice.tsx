@@ -2,6 +2,7 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import baseUrl from "../../../utils/baseUrl"
 import type { PayloadAction } from "@reduxjs/toolkit"
+import { object } from "yup"
 
 // Define types for actions and state
 interface UserData {
@@ -19,14 +20,14 @@ interface sendOtpUserData {
 
 interface OtpData {
   _id: string
-  otp: string
+  otp?: string
 }
 // interface ResetPassword {
 //   password: string
 // }
-interface userVer {
-  otp: string
-}
+// interface userVer {
+//   otp: string
+// }
 interface ResetSucess {
   message: string
 }
@@ -51,7 +52,7 @@ interface UserResponse {
 }
 
 interface User {
-  id: string
+  _id: string
   firstName: string
   lastName: string
   profilePhoto: string
@@ -71,7 +72,7 @@ interface User {
 interface UserState {
   usersList: User[]
   userAuth: UserResponse | null
-  verifyUser: userVer
+  verifyUser: any
   loading: boolean
   appErr?: string
   serverErr?: string
@@ -82,6 +83,16 @@ interface UserState {
   verifyLoading?: boolean
   resetLoading?: boolean
   isPasswordUpdated?: boolean
+  resetUser?: UserResponse | null
+}
+
+interface ResetSucess {
+  message: string // Update this type to match the actual response
+}
+
+interface ResetUserData {
+  email: string
+  password: string
 }
 
 // Action for resetting profile updates
@@ -317,6 +328,7 @@ const initialState: UserState = {
   loading: false,
   appErr: undefined,
   serverErr: undefined,
+  verifyUser: object,
 }
 
 // Create the user slice
@@ -355,14 +367,22 @@ const userSlices = createSlice({
       state.appErr = undefined
       state.serverErr = undefined
     })
+    // builder.addCase(
+    //   sendOtpAction.fulfilled,
+    //   (state, action: PayloadAction<UserResponse>) => {
+    //     // state.userAuth = action.payload
+    //     state.verifyUser = action.payload
+    //     state.verifyLoading = false
+    //   },
+    // )
     builder.addCase(
       sendOtpAction.fulfilled,
-      (state, action: PayloadAction<UserResponse>) => {
-        // state.userAuth = action.payload
-        state.verifyUser = action.payload
+      (state, action: PayloadAction<OtpData>) => {
+        state.verifyUser = action.payload // Ensure this matches your state structure
         state.verifyLoading = false
       },
     )
+
     builder.addCase(sendOtpAction.rejected, (state, action) => {
       state.appErr = action.payload?.message
       state.serverErr = action.error.message
@@ -378,15 +398,35 @@ const userSlices = createSlice({
     builder.addCase(resetPasswordUpdate, (state, action) => {
       state.isPasswordUpdated = true
     })
+    // builder.addCase(
+    //   resetPasswordAction.fulfilled,
+    //   (state, action: PayloadAction<UserResponse>) => {
+    //     // state.userAuth = action.payload
+    //     state.resetUser = action.payload
+    //     state.isPasswordUpdated = false
+    //     state.resetLoading = false
+    //   },
+    // )
+    // builder.addCase(
+    //   resetPasswordAction.fulfilled,
+    //   (state, action: PayloadAction<ResetSucess>) => {
+    //     state.resetUser = action.payload // Set the payload
+    //     state.isPasswordUpdated = false
+    //     state.resetLoading = false
+    //   },
+    // )
     builder.addCase(
       resetPasswordAction.fulfilled,
-      (state, action: PayloadAction<UserResponse>) => {
-        // state.userAuth = action.payload
-        state.resetUser = action.payload
+      (state, action: PayloadAction<ResetSucess>) => {
+        state.resetUser = {
+          ...state.resetUser, // Retain existing values if needed
+          ...action.payload, // Map new properties
+        } as UserResponse // Cast to UserResponse
         state.isPasswordUpdated = false
         state.resetLoading = false
       },
     )
+
     builder.addCase(resetPasswordAction.rejected, (state, action) => {
       state.appErr = action.payload?.message
       state.serverErr = action.error.message

@@ -351,7 +351,8 @@ const ForgotPasswordPage = () => {
       const result = await dispatch(sendOtpAction(formData)).unwrap()
       console.log("OTP sent successfully:", result)
 
-      setOtp(parseInt(result?.otp, 10))
+      // setOtp(parseInt(result?.otp, 10))
+      setOtp(parseInt(result?.otp ?? "0", 10))
       setUserId(result?._id)
       setShowForm("otp") // Move to OTP form on success
     } catch (error: any) {
