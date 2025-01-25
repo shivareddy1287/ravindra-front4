@@ -79,16 +79,18 @@ const Dashboard = () => {
             <>
               <div className="db-det-cont">
                 <div className="db-det-l-cont">
-                  {userDetails?.profilePhoto && (
-                    <img
-                      src={`data:image/jpeg;base64,${userDetails?.profilePhoto}`}
-                      alt="leaders"
-                    />
-                  )}{" "}
-                  <span>
-                    {userDetails?.firstName} {userDetails?.lastName}
-                    {/* :{" "}
+                  <span className="imgs-user-name">
+                    {userDetails?.profilePhoto && (
+                      <img
+                        src={`data:image/jpeg;base64,${userDetails?.profilePhoto}`}
+                        alt="leaders"
+                      />
+                    )}{" "}
+                    <span>
+                      {userDetails?.firstName} {userDetails?.lastName}
+                      {/* :{" "}
                     {allPhotos?.length} */}
+                    </span>
                   </span>
                 </div>
                 <div className="db-det-r-cont">

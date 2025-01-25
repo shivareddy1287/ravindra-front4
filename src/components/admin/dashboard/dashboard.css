@@ -121,3 +121,12 @@
 .mui-date .MuiSvgIcon-root {
   font-size: 20px; /* Adjust the icon size if needed */
 }
+
+@media (max-width: 480px) {
+  .pn-btn {
+    padding: 2px 1px;
+  }
+  .custom-datepicker {
+    height: 37px;
+  }
+}

@@ -152,7 +152,7 @@ const DeletePhotos = () => {
               </div>
             </div>
             <div className="db-det-r-cont">
-              <div className="checkbox-cont">
+              <div className="checkbox-cont check-box-lg">
                 <input
                   type="checkbox"
                   className="input-checkbox"
@@ -186,6 +186,16 @@ const DeletePhotos = () => {
                 <ArrowForwardIosRoundedIcon className="pn-btn-icon" />
               </button>
             </div>
+          </div>
+          <div className="checkbox-cont check-box-sm">
+            <input
+              type="checkbox"
+              className="input-checkbox"
+              id="selectCheckbox"
+              checked={selectAll}
+              onChange={handleSelectAllChange}
+            />
+            <label htmlFor="selectCheckbox">Select All Images</label>
           </div>
           {allPhotos ? (
             // <>

@@ -122,3 +122,34 @@
   background-color: #007bff;
   cursor: pointer;
 }
+.check-box-sm {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .delete-btn-img {
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 0.5em 0.5em;
+    border: 1px solid #ff0033;
+  }
+  .back-btn {
+    height: 12px;
+    width: 12px;
+    background-color: #615f6082;
+    color: #fff !important;
+    /* padding: 5px; */
+    border-radius: 50%;
+    display: inline-block;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    display: none;
+  }
+  .check-box-lg {
+    display: none;
+  }
+  .check-box-sm {
+    display: block;
+  }
+}

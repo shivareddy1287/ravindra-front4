@@ -8,6 +8,9 @@
 
 .kyl-header img {
   height: 120px;
+  object-fit: cover;
+  object-position: top;
+  max-width: 100px;
 }
 .kyl-header-r-cont {
   display: flex;
@@ -39,4 +42,22 @@
 
 .kyl-body-sec span {
   max-width: 68%;
+}
+
+@media (max-width: 480px) {
+  .kyl-header {
+    display: flex;
+
+    flex-direction: column;
+    /* display: none; */
+  }
+  .db-cont {
+    /* display: none; */
+  }
+  .kyl-body {
+    /* display: none; */
+  }
+  .kyl-body-sec {
+    flex-direction: column;
+  }
 }

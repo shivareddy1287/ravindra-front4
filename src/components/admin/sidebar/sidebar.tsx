@@ -63,14 +63,14 @@ const Sidebar = () => {
             onClick={() => navigate(`${sidebarItem.path}`)}
           >
             {sidebarItem?.icon}
-            {sidebarItem?.label}
+            <span className="side-bar-label">{sidebarItem?.label}</span>
           </div>
         ))}
       </div>
       <div className="sb-settings-cont">
         <div className="sidebar-cont-items">
           <SettingsApplicationsIcon />
-          Settings
+          <span className="side-bar-label">Settings</span>
         </div>
         <div className="sb-settings-card">
           <p onClick={() => navigate(`/user-bio/${userAuth?._id}`)}>Edit Bio</p>

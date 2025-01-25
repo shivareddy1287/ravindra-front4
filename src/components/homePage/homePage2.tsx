@@ -83,7 +83,7 @@ const HomePage2 = () => {
             />
           </div>
           <div>
-            <h2>Welcome to Our Communityy....</h2>
+            <h2>Welcome to Our Community</h2>
             <br />
             <p>
               Kollu Ravindra was born in Machilipatnam, Krishna District. He

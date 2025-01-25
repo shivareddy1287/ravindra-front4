@@ -46,3 +46,16 @@
 .sb-settings-cont:hover .sb-settings-card {
   display: block;
 }
+
+@media (max-width: 768px) {
+  .side-bar-label {
+    display: none;
+  }
+  .sidebar-cont {
+    width: 50px;
+  }
+  .sb-settings-card {
+    left: 45px;
+    bottom: 10px;
+  }
+}

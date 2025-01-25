@@ -116,3 +116,9 @@
 .Download-button:hover::after {
   height: 60%;
 }
+
+@media (max-width: 768px) {
+  .imgs-user-name {
+    display: none;
+  }
+}

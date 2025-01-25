@@ -261,24 +261,26 @@ const PhotosGallery = () => {
               </div> */}
                 <div className="db-det-cont">
                   <div className="db-det-l-cont">
-                    {usersList && usersList[0]?.profilePhoto && (
-                      <>
-                        <img
-                          alt="person"
-                          src={`data:image/jpeg;base64,${usersList[0]?.profilePhoto}`}
-                        />{" "}
-                      </>
-                    )}
-
                     <span>
-                      {usersList && (
+                      {usersList && usersList[0]?.profilePhoto && (
                         <>
-                          {" "}
-                          {usersList.length > 0
-                            ? `${usersList[0]?.lastName} ${usersList[0]?.firstName}`
-                            : "Loading"}
+                          <img
+                            alt="person"
+                            src={`data:image/jpeg;base64,${usersList[0]?.profilePhoto}`}
+                          />{" "}
                         </>
                       )}
+
+                      <span>
+                        {usersList && (
+                          <>
+                            {" "}
+                            {usersList.length > 0
+                              ? `${usersList[0]?.lastName} ${usersList[0]?.firstName}`
+                              : "Loading"}
+                          </>
+                        )}
+                      </span>
                     </span>
                   </div>
                   <div className="db-det-m-cont">

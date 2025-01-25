@@ -131,11 +131,11 @@ const UploadPhotos: React.FC = () => {
 
             <div className="flex-column">
               <label>Date</label>
-              <span>
+              {/* <span>
                 {formik.values.date
                   ? formik.values.date.format("DD-MMM-YYYY")
                   : ""}
-              </span>
+              </span> */}
             </div>
             <div className="inputForm up-dp">
               <CalendarMonthIcon />
